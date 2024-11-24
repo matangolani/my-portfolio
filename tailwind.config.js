@@ -13,7 +13,7 @@ export default {
         }
       },
       animation: {
-        'gradient': 'gradient-shift 15s ease infinite',
+        'gradient': 'gradient-shift 5s ease infinite',
       }
     },
   },
