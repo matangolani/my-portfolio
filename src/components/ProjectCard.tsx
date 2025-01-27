@@ -1,26 +1,39 @@
 // src/components/ProjectCard.tsx
 import React from 'react';
-import { Card, CardContent, Typography, Grid2 , CardActionArea} from '@mui/material';
+import { Card, CardContent, Typography, Grid2 } from '@mui/material';
+import { motion, useAnimation } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 
 interface ProjectCardProps {
   title: string;
-  description: string;
   technologies: string[];
-  imageUrl: string;
-  scale: number; // Add a scale prop
+  description: string;
+  image: string;
 }
 
-// src/components/ProjectCard.tsx
-const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, technologies, imageUrl, scale }) => {
-    return (
-      <Card
-        className="my-4 mx-auto"
-        style={{
-          maxWidth: `${scale * 80}%`, // Adjust maxWidth based on scale
-          width: 'auto', // Change this line
-          height: 'auto', // Change this line
-        }}
-      >
+const ProjectCard: React.FC<ProjectCardProps> = ({ title, technologies, description, image }) => {
+  const controls = useAnimation();
+  const [ref, inView] = useInView({
+    triggerOnce: false,
+    threshold: 0.1,
+  });
+
+  React.useEffect(() => {
+    if (inView) {
+      controls.start({ scale: 1, opacity: 1 });
+    } else {
+      controls.start({ scale: 0.8, opacity: 0 });
+    }
+  }, [controls, inView]);
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ scale: 0.8, opacity: 0 }}
+      animate={controls}
+      transition={{ duration: 0.5 }}
+    >
+      <Card className="my-4 mx-auto">
         <CardContent>
           <Grid2 container spacing={2}>
             <Grid2 size={6}>
@@ -40,13 +53,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, technolog
               </Typography>
             </Grid2>
             <Grid2 size={6}>
-              <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
+              <img src={image || 'https://via.placeholder.com/150'} alt={title} />
             </Grid2>
           </Grid2>
         </CardContent>
       </Card>
-    );
-  };
-  
+    </motion.div>
+  );
+};
 
 export default ProjectCard;

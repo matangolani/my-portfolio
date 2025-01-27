@@ -1,77 +1,178 @@
 // src/pages/Home.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { motion } from "motion/react";
 import ProjectCard from '../components/ProjectCard';
-import Navbar from '../components/Navbar'; // Import the Navbar component
+import Skills from '../components/Skills';
+import Navbar from '../components/Navbar';
+import projects from '../data/projects.json';
+import { TextField, Button, Box, Typography, Card, CardContent, Grid2 } from '@mui/material';
+import { Timeline, TimelineItem, TimelineSeparator, TimelineConnector, TimelineContent, TimelineDot } from '@mui/lab';
 
-const projects = [
-    {
-      title: 'Project 1',
-      description: `This project is a personal blog platform where users can create, edit, and share their own blog posts. The blog features a clean and modern design, with a focus on readability and user experience. Users can categorize their posts, add tags, and include images to enhance their content. The platform also includes a commenting system, allowing readers to engage with the authors and provide feedback. This project was built using React, TypeScript, and Tailwind CSS, with a backend powered by Node.js and MongoDB.`,
-      technologies: ['React', 'TypeScript', 'Tailwind CSS', 'Node.js', 'MongoDB'],
-      imageUrl: 'https://via.placeholder.com/400', // Replace with actual image URL
-    },
-    {
-      title: 'Project 2',
-      description: `This project is a fully functional e-commerce website that allows users to browse, search, and purchase products online. The website features a responsive design, ensuring a seamless shopping experience across all devices. Users can create accounts, add items to their cart, and proceed to checkout with a secure payment gateway. The admin panel provides tools for managing products, orders, and users. This project was developed using React, TypeScript, and Material UI, with a backend built on Express.js and PostgreSQL.`,
-      technologies: ['React', 'TypeScript', 'Material UI', 'Express.js', 'PostgreSQL'],
-      imageUrl: 'https://via.placeholder.com/400', // Replace with actual image URL
-    },
-    {
-      title: 'Project 3',
-      description: `This project is a fully functional e-commerce website that allows users to browse, search, and purchase products online. The website features a responsive design, ensuring a seamless shopping experience across all devices. Users can create accounts, add items to their cart, and proceed to checkout with a secure payment gateway. The admin panel provides tools for managing products, orders, and users. This project was developed using React, TypeScript, and Material UI, with a backend built on Express.js and PostgreSQL.`,
-      technologies: ['React', 'TypeScript', 'Material UI', 'Express.js', 'PostgreSQL'],
-      imageUrl: 'https://via.placeholder.com/400', // Replace with actual image URL
-    },
-  ];
+const Home: React.FC = () => {
+  const [activeSection, setActiveSection] = useState('home');
 
-  const Home: React.FC = () => {
-    const [currentIndex, setCurrentIndex] = useState(0);
-  
-    const handleScroll = (event: React.WheelEvent) => {
-        if ((event.target as HTMLElement).closest('.project-card')) {
-            if (event.deltaY > 0) {
-            // Scroll down
-            setCurrentIndex((prevIndex) => (prevIndex + 1) % projects.length);
-            } else {
-            // Scroll up
-            setCurrentIndex((prevIndex) => (prevIndex - 1 + projects.length) % projects.length);
-            }
-        }
+  const handleScroll = () => {
+    const sections = ['home', 'projects', 'skills', 'experience', 'education', 'contact'];
+    const scrollPosition = window.scrollY + window.innerHeight / 2;
+
+    for (const section of sections) {
+      const element = document.getElementById(section);
+      if (element && element.offsetTop <= scrollPosition && element.offsetTop + element.offsetHeight > scrollPosition) {
+        setActiveSection(section);
+        break;
+      }
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
     };
+  }, []);
 
   return (
     <div>
-      <Navbar /> {/* Add the Navbar component here */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-800 via-slate-500 to-blue-800 animate-gradient bg-[length:400%_400%]"></div>
+      <Navbar activeSection={activeSection} />
+      <section id="home" className="h-screen flex items-center justify-center ">
+        <h1 className="text-4xl max-w-lg text-center">Hello, I'm Matan. I'm a software engineer at Intesis in Igualada. I'm currently working with C#, Git, and Jenkins.</h1>
+      </section>
 
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-gray-500 rounded-full mix-blend-overlay filter blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-300 rounded-full mix-blend-overlay filter blur-3xl animate-pulse"></div>
-      </div>
-      
-      <div className="relative h-screen flex flex-col items-center justify-center">
-        <section id="projects" className="flex-grow flex items-center justify-center pt-96" onWheel={handleScroll}>
-          {projects.map((project, index) => (
-            <div
-              key={index}
-              className={`project-card absolute w-full flex justify-center transition-transform duration-500 ${
-                index === currentIndex ? 'transform translate-y-0 z-30' :
-                index === (currentIndex + 1) % projects.length ? 'transform -translate-y-1/4 z-20' :
-                index === (currentIndex + 2) % projects.length ? 'transform -translate-y-1/2 z-10' :
-                'transform -translate-y-full z-0'
-              }`}
-            >
-              <ProjectCard 
-                title={project.title}
-                description={project.description}
-                technologies={project.technologies}
-                imageUrl={project.imageUrl}
-                scale={index === currentIndex ? 1 : index === (currentIndex + 1) % projects.length ? 0.9 : 0.8}
-              />
-            </div>
-          ))}
-        </section>
-      </div>
+      <section id="projects" className="min-h-screen flex flex-col items-center justify-center py-8">
+        <h1 className="text-4xl mb-8">My Projects</h1>
+        {projects.map((project, index) => (
+          <ProjectCard
+            key={index}
+            title={project.title}
+            technologies={project.technologies}
+            description={project.description}
+            image={project.image}
+          />
+        ))}
+      </section>
+
+      <section id="skills" className="h-screen flex flex-col items-center justify-center ">
+        <h1 className="text-4xl mb-8">My Skills</h1>
+        <Skills />
+      </section>
+
+      <section id="experience" className="min-h-screen flex flex-col items-center justify-center  py-8">
+        <h1 className="text-4xl mb-8">My Experience</h1>
+        <Timeline position="alternate">
+          <TimelineItem>
+            <TimelineSeparator>
+              <TimelineDot />
+              <TimelineConnector />
+            </TimelineSeparator>
+            <TimelineContent>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" component="div">
+                    Software Engineer
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Intesis - September 2024 - Present
+                  </Typography>
+                  <Typography variant="body1" className="mt-2">
+                    Software engineer in the Gateways Firmware team. We are a feature enablement team dedicated to developing features for developers, ensuring they are easier to create. We also look after issues of scale and technical debt for developers and the platform.
+                  </Typography>
+                </CardContent>
+              </Card>
+            </TimelineContent>
+          </TimelineItem>
+          <TimelineItem>
+            <TimelineSeparator>
+              <TimelineDot />
+              <TimelineConnector />
+            </TimelineSeparator>
+            <TimelineContent>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" component="div">
+                    Software Engineer
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    The University of Queensland - November 2022 - January 2024
+                  </Typography>
+                  <Typography variant="body1" className="mt-2">
+                    Full-stack software engineer in the Application Development and Support team. Worked on web applications such as CAHP (Casual Academic Hire and Payment), UQ Maps, UQ Donations, and Programs and Courses.
+                  </Typography>
+                </CardContent>
+              </Card>
+            </TimelineContent>
+          </TimelineItem>
+          <TimelineItem>
+            <TimelineSeparator>
+              <TimelineDot />
+            </TimelineSeparator>
+            <TimelineContent>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" component="div">
+                    Junior Developer
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    YouPay - February 2022 - November 2022
+                  </Typography>
+                  <Typography variant="body1" className="mt-2">
+                    Developed new features using Laravel, Vue.js, PHP, JavaScript, Tailwind CSS, MySQL and REST APIs. Created an email notification system for merchants to receive weekly/monthly summaries of YouPay carts created, paid and cancelled. I also integrated YouPay into dozens of stores.
+                  </Typography>
+                </CardContent>
+              </Card>
+            </TimelineContent>
+          </TimelineItem>
+        </Timeline>
+      </section>
+
+      <section id="education" className="h-screen flex flex-col items-center justify-center ">
+        <h1 className="text-4xl mb-4">My Education</h1>
+        <Card sx={{ maxWidth: 600 }}>
+          <CardContent>
+            <Grid2 container spacing={2}>
+              <Grid2 size={4}>
+                <img src="src\assets\UOB_logo.jfif" alt="University Logo" style={{ width: '100%', height: 'auto' }} />
+              </Grid2>
+              <Grid2 size={8}>
+                <Typography variant="h5" component="div">
+                  Bsc (Hons) Computer Science with Professional Placement 
+                </Typography>
+                <Typography variant="h6" component="div" className="mt-2">
+                  University of Bath
+                </Typography>
+                <Typography variant="body1" color="text.secondary" className="mt-2">
+                  Graduating in 2026
+                </Typography>
+              </Grid2>
+            </Grid2>
+          </CardContent>
+        </Card>
+      </section>
+
+      <section id="contact" className="h-screen flex flex-col items-center justify-center ">
+        <h1 className="text-4xl mb-4">Contact Me</h1>
+        <Typography variant="body1" className="mb-4">
+          Please contact me directly at my email or through this form.
+        </Typography>
+        <Box component="form" noValidate autoComplete="off" sx={{ width: '100%', maxWidth: 500 }}>
+          <TextField
+            fullWidth
+            label="Your Email"
+            variant="outlined"
+            margin="normal"
+          />
+          <TextField
+            fullWidth
+            label="Your Message"
+            variant="outlined"
+            margin="normal"
+            multiline
+            rows={4}
+          />
+          <Button variant="contained" color="primary" type="submit" sx={{ mt: 2 }}>
+            Submit
+          </Button>
+        </Box>
+      </section>
     </div>
   );
 };

@@ -26,9 +26,10 @@ import Home from './pages/Home';
 
 const App: React.FC = () => {
   return (
-    <div className="App">
+    <div className="min-h-screen bg-gradient-to-r from-gray-300 to-gray-500 p-6">
       <Home />
     </div>
+    
   );
 };
 

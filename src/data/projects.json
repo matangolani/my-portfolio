@@ -1,0 +1,75 @@
+[
+    {
+      "title": "Project 1",
+      "technologies": ["HTML", "CSS", "JavaScript"],
+      "description": "This is a description for Project 1.",
+      "image": "path/to/image1.jpg"
+    },
+    {
+      "title": "Project 2",
+      "technologies": ["React", "TypeScript", "Material-UI"],
+      "description": "This is a description for Project 2.",
+      "image": "path/to/image2.jpg"
+    },
+    {
+      "title": "Project 3",
+      "technologies": ["Vue.js", "Vuex", "Vuetify"],
+      "description": "This is a description for Project 3.",
+      "image": "path/to/image3.jpg"
+    },
+    {
+      "title": "Project 4",
+      "technologies": ["Angular", "RxJS", "NgRx"],
+      "description": "This is a description for Project 4.",
+      "image": "path/to/image4.jpg"
+    },
+    {
+      "title": "Project 5",
+      "technologies": ["Svelte", "Sapper", "Tailwind CSS"],
+      "description": "This is a description for Project 5.",
+      "image": "path/to/image5.jpg"
+    },
+    {
+      "title": "Project 6",
+      "technologies": ["Next.js", "GraphQL", "Apollo"],
+      "description": "This is a description for Project 6.",
+      "image": "path/to/image6.jpg"
+    },
+    {
+      "title": "Project 7",
+      "technologies": ["Gatsby", "Contentful", "Styled Components"],
+      "description": "This is a description for Project 7.",
+      "image": "path/to/image7.jpg"
+    },
+    {
+      "title": "Project 8",
+      "technologies": ["Nuxt.js", "Axios", "BootstrapVue"],
+      "description": "This is a description for Project 8.",
+      "image": "path/to/image8.jpg"
+    },
+    {
+      "title": "Project 9",
+      "technologies": ["Ember.js", "Ember Data", "Ember CLI"],
+      "description": "This is a description for Project 9.",
+      "image": "path/to/image9.jpg"
+    },
+    {
+      "title": "Project 10",
+      "technologies": ["Backbone.js", "Marionette.js", "Underscore.js"],
+      "description": "This is a description for Project 10.",
+      "image": "path/to/image10.jpg"
+    },
+    {
+      "title": "Project 11",
+      "technologies": ["Meteor", "Blaze", "MongoDB"],
+      "description": "This is a description for Project 11.",
+      "image": "path/to/image11.jpg"
+    },
+    {
+      "title": "Project 12",
+      "technologies": ["Express.js", "Node.js", "MongoDB"],
+      "description": "This is a description for Project 12.",
+      "image": "path/to/image12.jpg"
+    }
+  ]
+  
